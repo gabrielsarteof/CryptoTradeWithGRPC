@@ -1,0 +1,32 @@
+<header>
+    {% set usuario = request.state.usuario %}    
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-house fs-1"></i>
+            </a>            
+            <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                    <a class="nav-item nav-link" href="/usuario/sobre">Sobre</a>
+                    <a class="nav-item nav-link" href="/usuario/tema">Tema</a>
+                    <span class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <b>Olá, {{ usuario.nome }}</b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/usuario/alterar_dados">Meus Dados</a></li>
+                            <li><a class="dropdown-item" href="/usuario/alterar_senha">Alterar Senha</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/sair">Sair</a></li>
+                        </ul>
+                    </span>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

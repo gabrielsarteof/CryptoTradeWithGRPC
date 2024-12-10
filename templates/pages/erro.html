@@ -1,0 +1,17 @@
+{% extends "shared/base_publica.html" %}
+
+{% block subtitulo -%}
+Erro Inesperado
+{%- endblock %}
+
+{% block conteudo %}
+<div class="col-12">
+    <h1 class="display-6">Erro Inesperado</h1>
+    <hr>
+    <p class="lead">
+        Ocorreu um erro insperado. Nossa equipe de suporte já foi notificada e irá resolver o problema o mais rápido possível.
+    </p>
+    <h3>Detalhes do Erro</h3>
+    <p>{{detail|safe}}</p>
+</div>
+{% endblock %}
