@@ -5,3 +5,4 @@ python-multipart
 bcrypt
 pyJWT
 python-dotenv
+httpx

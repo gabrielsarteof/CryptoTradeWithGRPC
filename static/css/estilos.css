@@ -40,15 +40,18 @@ body, p {
     background: #191A1E;
     box-shadow: 0px 4px 4px 0px rgba(47, 114, 255, 0.15) inset;
     border-radius: 40px;
-    padding: 4rem;
     width: 100vw;
-    max-width: 600px;
+    max-width: 500px;
     height:auto;
     margin: 0 auto;
     color: black;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.black-card-body {
+    padding: 4rem;
 }
 
 .black-card h1 {
@@ -73,7 +76,7 @@ body, p {
     padding: 2rem 0;
 }
 
-.black-card button {
+.black-card-button {
     background-color: #2A52BE;
     color: white;
     border: none;
@@ -87,7 +90,7 @@ body, p {
     width: 100%; /* O botão agora usa toda a largura do formulário */
 }
 
-.black-card button:hover {
+.black-card-button:hover {
     background-color: #1A47A3;
 }
 
@@ -221,7 +224,7 @@ input[type="date"]::placeholder {
     text-decoration: none;
 }
 
-.black-card p{
+.footer-text{
     color: #5D5F66;
     font-size: 15px;
     text-decoration: none;

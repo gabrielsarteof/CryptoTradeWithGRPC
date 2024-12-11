@@ -1,0 +1,271 @@
+.top-card {
+    display: flex;
+    text-align: center;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.black-card-body {
+    padding: 1rem 4rem;
+}
+
+.top-card h2 {
+    color: white;
+    font-size: 1rem;
+}
+
+.exit-button {
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+/* Middle Card Styles */
+.middle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.wallet-code {
+    background-color: #2a51be61;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    text-align: center;
+    color: #191A1E;
+    margin-bottom: 20px;
+}
+
+/* Button Row */
+.middle-card .row {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.actions-circle-btn {
+    background-color: #2A52BE;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.actions-circle-btn:hover {
+    background-color: #1A47A3;
+}
+
+.action-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-text {
+    font-size: 0.8rem;
+    color:  #2A52BE;
+    margin-top: 5px;
+}
+
+/* Bottom Card Styles */
+.bottom-card {
+    margin-top: 40px;
+}
+
+.currency-selector {
+    position: relative;
+    display: inline-block;
+}
+
+#currency-button {
+    display: flex;
+    background-color: transparent;
+    align-items: center;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#selected-currency-image{
+    height:2rem;
+    width:2rem;
+}
+
+.currency-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.dropdown-arrow {
+    font-size: 16px;
+}
+
+.currency-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #333;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: max-content;
+    height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    scrollbar-color: #333 #777; 
+    scrollbar-width: thin;
+}
+
+#currency-dropdown::-webkit-scrollbar {
+    width: 8px; /* Largura da barra */
+}
+
+#currency-dropdown::-webkit-scrollbar-track {
+    background-color: #777;
+}
+
+#currency-dropdown::-webkit-scrollbar-thumb {
+    background-color: #333; 
+    border-radius: 10px;
+}
+
+#currency-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: #555; 
+}
+
+.currency-dropdown.hidden {
+    display: none;
+}
+
+.currency-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.currency-option:hover {
+    background-color: #444;
+}
+
+.currency-name {
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+#currency-amount{
+    color: white;
+    font-size: 1.7rem;;
+}
+
+.horizontal-container {
+    display: flex;
+    align-items: center;
+    padding: 1.3rem 1.5rem;
+    background-color: transparent;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo da imagem */
+.icon-container {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: #333;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.icon-image {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+}
+
+/* Estilo das informações da transação */
+.transaction-info {
+    flex: 1 1 auto;
+    margin-left: 1rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+/* Linha superior com nome e quantidade */
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+.transaction-name {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #fff;
+}
+
+.transaction-quantity {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #aaa;
+}
+
+.transaction-date {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.no-transactions {
+    color: #aaa;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.black-card h3{
+    color: #2A52BE;
+    margin-left: 1.7rem;
+    font-size: 1.3rem;
+}
+
+.footnote {
+    display: flex;
+    color: #5D5F66;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.footnote button {
+    all: unset; 
+    color: white;
+    font-size: 1.2rem;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer; 
+}
+
+.footnote button:hover {
+    background-color: #11111151;
+}

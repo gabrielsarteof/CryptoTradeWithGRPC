@@ -10,7 +10,6 @@ class UsuarioRepo:
     def criar_tabela(cls):
         with obter_conexao() as db:
             cursor = db.cursor()
-            cursor.execute(SQL_DELETAR_TABELA)
             cursor.execute(SQL_CRIAR_TABELA)
 
     @classmethod

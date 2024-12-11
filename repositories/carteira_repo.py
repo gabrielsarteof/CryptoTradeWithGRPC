@@ -8,7 +8,6 @@ class CarteiraRepo:
     def criar_tabela(cls):
         with obter_conexao() as db:
             cursor = db.cursor()
-            cursor.execute(SQL_DELETAR_TABELA)
             cursor.execute(SQL_CRIAR_TABELA)
 
     @classmethod
@@ -32,11 +31,11 @@ class CarteiraRepo:
             return resultado.rowcount > 0
 
     @classmethod
-    def obter_carteira(cls, usuario_id: int) -> Optional[Carteira]:
+    def obter_carteira(cls, carteira_id: str) -> Optional[Carteira]:
         with obter_conexao() as db:
             cursor = db.cursor()
             dados = cursor.execute(
-                SQL_OBTER_CARTEIRA, (usuario_id,)).fetchone()
+                SQL_OBTER_CARTEIRA, (carteira_id,)).fetchone()
             if dados:
                 return Carteira(id=dados[0], usuario_id=dados[1], saldo_fiat=dados[2], saldos=eval(dados[3]))
             return None

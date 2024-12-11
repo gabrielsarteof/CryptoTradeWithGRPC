@@ -25,7 +25,7 @@ async def get_root(request: Request):
 async def get_entrar(request: Request):
     return templates.TemplateResponse("pages/conecte-se.html", {"request": request})
 
-@router.post("/post_entrar")
+@router.post("/post_login")
 async def post_entrar(
     email: str = Form(...), 
     senha: str = Form(...)):
@@ -34,7 +34,7 @@ async def post_entrar(
         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
         return response
     token = criar_token(usuario[0], usuario[1], usuario[2])
-    response = RedirectResponse(f"/pages/usuario/index.html", status_code=status.HTTP_303_SEE_OTHER)    
+    response = RedirectResponse(f"/usuario/", status_code=status.HTTP_303_SEE_OTHER)    
     response.set_cookie(
         key=NOME_COOKIE_AUTH,
         value=token,

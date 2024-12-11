@@ -7,25 +7,27 @@
     <div class="row no-gutters full-height">
         <div class="col-12 d-flex flex-direction: column justify-content-center align-items-center">
             <div class="black-card">
-                <h1>Conecte-se</h1>
-                <h2>Seu próximo investimento começa aqui</h2>
+                <div class="black-card-body">
+                    <h1>Conecte-se</h1>
+                    <h2>Seu próximo investimento começa aqui</h2>
 
-                <form action="/login" method="post" class="form-full">
-                    {{ input(type="email", id="email", name="email", placeholder="Email", value=email_temp ) }}
-                    {{ input(type="password", id="senha", name="senha", placeholder="Senha", ) }}
-                    <div class="mb-3 mt-4">
-                        <a href="/esqueci_a_senha" class="forgot-password">Esqueceu a senha?</a>
+                    <form action="/post_login" method="post" class="form-full">
+                        {{ input(type="email", id="email", name="email", placeholder="Email", value=email_temp ) }}
+                        {{ input(type="password", id="senha", name="senha", placeholder="Senha", ) }}
+                        <div class="mb-3 mt-4">
+                            <a href="/esqueci_a_senha" class="forgot-password">Esqueceu a senha?</a>
+                        </div>
+                        {{ button(text="Entrar")}}
+                    </form>
+                    {% if request.cookies.get('mensagem_erro') %}
+                        <div class="error-container">
+                            <span class="error-message">{{ request.cookies.get('mensagem_erro') }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="d-flex align-items-center justify-content-center">
+                        <p class="footer-text mb-0 me-2">Não possui uma conta?</p>
+                        <a href="/cadastre-se">Cadastre-se</a>
                     </div>
-                    {{ button(text="Entrar")}}
-                </form>
-                {% if request.cookies.get('mensagem_erro') %}
-                    <div class="error-container">
-                        <span class="error-message">{{ request.cookies.get('mensagem_erro') }}</span>
-                    </div>
-                {% endif %}
-                <div class="d-flex align-items-center justify-content-center">
-                    <p class="mb-0 me-2">Não possui uma conta?</p>
-                    <a href="/cadastre-se">Cadastre-se</a>
                 </div>         
             </div>
         </div>

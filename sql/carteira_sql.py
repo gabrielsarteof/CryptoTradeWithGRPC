@@ -27,7 +27,7 @@ SQL_ATUALIZAR_SALDO = """
 SQL_OBTER_CARTEIRA = """
     SELECT id, usuario_id, saldo_fiat, saldos
     FROM carteira
-    WHERE usuario_id = ?
+    WHERE id = ?
 """
 
 SQL_EXCLUIR_CARTEIRA = """

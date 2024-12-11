@@ -1,47 +1,119 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comprar Criptomoeda</title>
-    <link rel="stylesheet" href="/static/css/estilo-comprar.css">
-</head>
-<body>
-    <div class="row">
-        <div class="col-6 offset-3">
-            <form action="/post_comprar" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Comprar Criptomoeda</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="criptomoeda">Selecione uma Criptomoeda</label>
-                            <select id="criptomoeda" name="criptomoeda" required>
-                                <option value="btc">Bitcoin</option>
-                                <option value="eth">Ethereum</option>
-                                <option value="ltc">Litecoin</option>
-                            </select>
-                        </div>
+{% extends 'shared/base_publica.html' %}
+{% from 'shared/macros.html' import input, button %}
+{% block subtitulo %}Carteira{% endblock %}
+{% block conteudo %}
+<link rel="stylesheet" href="/static/css/estilo-carteira.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-                        <div class="form-group">
-                            <label for="quantidade">Quantidade</label>
-                            <input type="number" id="quantidade" name="quantidade" min="0.01" step="0.01" required>
+<div class="container-fluid full-height">
+    <div class="row no-gutters full-height">
+        <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+            <div class="black-card">
+                <!-- Top Card -->
+                <div class="top-card justify-content-between align-items-center text-align-center position-relative">
+                    {% if moedas %}    
+                        <div class="currency-selector">
+                            <button id="currency-button" class="currency-circle-btn">
+                                <img id="selected-currency-image" src="{{ moedas[0]['imagem'] }}" alt="{{ moedas[0]['nome'] }}">
+                            </button>
+                            <div id="currency-dropdown" class="currency-dropdown d-none">
+                                {% for moeda in moedas %}
+                                    <div class="currency-option" onclick="selectCurrency('{{ moeda.nome }}', '{{ moeda.imagem }}', {{ moeda.quantidade }})">
+                                        <img id="selected-currency-image" src="{{ moeda.imagem }}" alt="{{ moeda.nome }}">
+                                        <span class="currency-name">{{ moeda.nome }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
-
-                        <div class="form-group mt-3">
-                            <label for="preco">Preço Total (estimado):</label>
-                            <input type="text" id="preco" name="preco" value="R$ 0,00" readonly>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <button type="submit">Confirmar Compra</button>
-                    </div>
+                    {% else %}
+                        <div></div>
+                    {% endif %}
+                    <h2>Wallet</h2>
+                    <button class="exit-button" onclick="window.location.href='/sair'">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-            </form>
+                <div class="black-card-body">
+                    <!-- Middle Card -->
+                    <div class="middle-card d-flex flex-column align-items-center mt-4">
+                        <p class="wallet-code">{{ request.state.usuario.carteira }}</p>
+                        {% if moedas %}
+                            <p id="currency-amount" class="wallet-amount">
+                                {{ moedas[0]['quantidade'] }} {{ moedas[0]['nome'] }}
+                            </p>
+                        {% endif %}
+                        <div class="row d-flex justify-content-around mt-3">
+                            <div class="action-container">
+                                <button class="actions-circle-btn" onclick="window.location.href='/usuario/comprar_cripto'">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                                <p class="action-text">Comprar</p>
+                            </div>
+                            <div class="action-container">
+                                <button class="actions-circle-btn">
+                                    <i class="bi bi-send"></i>
+                                </button>
+                                <p class="action-text">Enviar</p>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+                <div class="bottom-card mt-4">
+                    {% if transacoes %}
+                        <h3>Histórico</h3>
+                        {% for transacao in transacoes %}
+                            <div class="horizontal-container">
+                                <!-- Imagem da moeda -->
+                                <div class="icon-container">
+                                    <img src="{{ transacao.imagem }}" alt="{{ transacao.moeda }}" class="icon-image">
+                                </div>
+                                
+                                <!-- Informações da transação -->
+                                <div class="transaction-info">
+                                    <!-- Linha superior com nome e quantidade -->
+                                    <div class="transaction-header d-flex justify-content-between">
+                                        <span class="transaction-name">{{ transacao.moeda }}</span>
+                                        <span class="transaction-quantity">{{ transacao.quantidade }}</span>
+                                    </div>
+                                    <!-- Data da transação -->
+                                    <div class="transaction-date">
+                                        {{ transacao.data }}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div> 
+                <div class="footnote">
+                    {% if colaboradores_message %}
+                        <div>
+                            Made with <i class="bi bi-heart-fill" style="color: red;"></i> by {{ colaboradores_message }}
+                        </div>
+                    {% else %}
+                        <button class="footnote-button" onclick="window.location.href='/usuario/mostrar_colaboradores'">Click Me</button>
+                    {% endif %}
+                </div>                                             
+            </div>
         </div>
     </div>
+</div>
 
-    <script src="/static/javascript/compra.js"></script>
-</body>
-</html>
+<script>
+    const dropdown = document.getElementById("currency-dropdown");
+    const button = document.getElementById("currency-button");
+    const amountDisplay = document.getElementById("currency-amount");
+    const selectedImage = document.getElementById("selected-currency-image");
+
+    function toggleDropdown() {
+        dropdown.classList.toggle("d-none");
+    }
+
+    function selectCurrency(name, image, quantity) {
+        selectedImage.src = image;
+        amountDisplay.innerText = `${quantity} ${name}`;
+        dropdown.classList.add("d-none");
+    }
+
+    button.addEventListener("click", toggleDropdown);
+</script>
+{% endblock %}

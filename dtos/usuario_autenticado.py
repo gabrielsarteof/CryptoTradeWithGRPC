@@ -6,4 +6,4 @@ from typing import Optional
 class UsuarioAutenticado:    
     nome: Optional[str] = None
     email: Optional[str] = None
-    perfil: Optional[int] = None
+    carteira: Optional[str] = None

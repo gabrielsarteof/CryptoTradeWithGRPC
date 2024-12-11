@@ -38,14 +38,8 @@ async def checar_autenticacao(request: Request, call_next):
 async def checar_autorizacao(request: Request):
     usuario = request.state.usuario if hasattr(request.state, "usuario") else None
     area_do_usuario = request.url.path.startswith("/usuario")
-    area_do_aluno = request.url.path.startswith("/aluno")
-    area_do_professor = request.url.path.startswith("/professor")
-    if (area_do_usuario or area_do_aluno or area_do_professor) and (not usuario or not usuario.perfil):
+    if (area_do_usuario) and (not usuario):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    if area_do_aluno and usuario.perfil != 1:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
-    if area_do_professor and usuario.perfil != 2:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 
 def obter_hash_senha(senha: str) -> str:
