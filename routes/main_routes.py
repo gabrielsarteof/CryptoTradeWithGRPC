@@ -1,3 +1,4 @@
+import secrets
 from fastapi import APIRouter, Form, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -14,13 +15,13 @@ templates = Jinja2Templates(directory="templates")
 async def get_root(request: Request):
     usuario = request.state.usuario if hasattr(request.state, "usuario") else None
     if not usuario or not usuario.email:
-        return RedirectResponse("/entrar", status_code=status.HTTP_303_SEE_OTHER)        
+        return RedirectResponse("/conecte-se", status_code=status.HTTP_303_SEE_OTHER)        
     else:
         return RedirectResponse("/usuario", status_code=status.HTTP_303_SEE_OTHER)
 
-@router.get("/entrar")
+@router.get("/conecte-se")
 async def get_entrar(request: Request):
-    return templates.TemplateResponse("pages/entrar.html", {"request": request})
+    return templates.TemplateResponse("pages/conecte-se.html", {"request": request})
 
 @router.post("/post_entrar")
 async def post_entrar(
@@ -47,26 +48,23 @@ async def post_entrar(
     )
     return response
 
-@router.get("/cadastrar")
+@router.get("/cadastre-se")
 async def get_cadastrar(request: Request):
-    options_perfis = [
-        {'value' : '1', 'label': 'Aluno' },
-        {'value' : '2', 'label': 'Professor' },
-    ]
-    return templates.TemplateResponse("pages/cadastrar.html", {"request": request, "options_perfis": options_perfis})
+    return templates.TemplateResponse("pages/cadastre-se.html", {"request": request})
 
 @router.post("/post_cadastrar")
 async def post_cadastrar(
     nome: str = Form(...),
     email: str = Form(...),
-    telefone: str = Form(...),
+    cpf: str = Form(...),
+    data_nascimento: str = Form(...),
     senha: str = Form(...),
     confsenha: str = Form(...),
     perfil: int = Form(...)):
     if senha != confsenha:
         return RedirectResponse("/cadastrar", status_code=status.HTTP_303_SEE_OTHER)
     senha_hash = obter_hash_senha(senha)
-    usuario = Usuario(None, nome, email, telefone, senha_hash, None, perfil)
+    usuario = Usuario(None, nome, email, cpf, data_nascimento, senha_hash, None)
     UsuarioRepo.inserir(usuario)
     return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
 

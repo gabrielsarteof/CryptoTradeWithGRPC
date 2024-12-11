@@ -1,0 +1,306 @@
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #131419;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    min-height: 100vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    overflow-x: hidden; 
+    overflow-y: auto; 
+}
+
+body, p {
+    font-family: 'Ubuntu', sans-serif; /* Ou a fonte desejada */
+}
+
+.page-background {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.black-card {
+    position: relative;
+    background: #191A1E;
+    box-shadow: 0px 4px 4px 0px rgba(47, 114, 255, 0.15) inset;
+    border-radius: 40px;
+    padding: 4rem;
+    width: 100vw;
+    max-width: 600px;
+    height:auto;
+    margin: 0 auto;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.black-card h1 {
+    color: #FFF;
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.black-card h2 {
+    color: #5D5F66;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+}
+
+.black-card form {
+    width: 100%;
+    padding: 0;
+    gap: 5;
+    padding: 2rem 0;
+}
+
+.black-card button {
+    background-color: #2A52BE;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    font-size: 16px;
+    border-radius: 8px;
+    margin: 12px auto;
+    display: inline-block;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    width: 100%; /* O botão agora usa toda a largura do formulário */
+}
+
+.black-card button:hover {
+    background-color: #1A47A3;
+}
+
+.input-group {
+    width: 100%; 
+    color: white;
+    margin-right: 0px;
+    margin-left: 0px;
+    border-radius: 8px;
+    padding: 10px 15px; 
+    box-shadow: none;
+    height: 50px !important;
+    width: 100%; 
+    box-sizing: border-box; 
+    border: 1px solid #242528;
+    background: #1E2128;
+}
+
+.input-group:hover {
+    border-color: white;
+}
+
+.input-group:focus-within {
+    border-color: #007bff;
+}
+
+.input-group-append {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.input-group-text {
+    background-color: transparent !important;
+    border: none !important;
+    color: #0c7496;
+    padding: 0;
+    font-size: 18px !important;
+}
+
+.form-row {
+    gap: 10px;
+}
+
+.divisao-form {
+    flex: 1;
+}
+
+
+
+.form-row > div {
+    flex: 1; /* Faz com que cada coluna dentro da form-row ocupe o mesmo espaço */
+    padding: 0px; /* Reduzido o espaço lateral entre os campos */
+}
+
+.custom-input {
+    all: unset; /* Remove todos os estilos */
+    width: 100%; /* Garante que o input ocupe toda a largura do contêiner */
+    padding: 0 1.2rem; /* Remove o padding padrão */
+    text-align: left;
+    border: none; /* Remove a borda padrão */
+    outline: none; /* Remove o contorno ao focar */
+    box-shadow: none; /* Remove a sombra */
+    font-size: inherit; /* Usa o tamanho da fonte do pai */
+    background-color: transparent; /* Torna o fundo transparente */
+}
+
+.custom-input:focus {
+    outline: none; /* Remove o contorno ao focar */
+    border: none; /* Garante que a borda não apareça ao focar */
+    box-shadow: none;
+    background-color: transparent
+}
+
+.custom-input::placeholder {
+    color: #5D5F66 !important;
+    font-size: 16px !important;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+    cursor: pointer; 
+}
+
+
+input[type="date"] {
+    color: white; 
+    background-color: transparent; 
+    border: none; 
+    box-shadow: none; 
+    padding: 0 1.2rem; 
+    font-size: inherit; 
+    width: 100%; 
+}
+
+
+input[type="date"]::placeholder {
+    color: #0c7496; 
+    font-size: 16px !important;
+}
+
+::-webkit-datetime-edit {
+    color: white; 
+    background-color: #1E2128; 
+}
+
+.input-group-append {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.col-md-6 {
+    padding: 10px;
+}
+
+.forgot-password {
+    color: #0c7496; 
+    display: block; 
+    font-size: 1.1rem; 
+}
+
+.forgot-password:hover {
+    color: #1090ba;
+    text-decoration: none;
+}
+
+.black-card p{
+    color: #5D5F66;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.black-card a{
+    color: #2A52BE;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.black-card a:hover {
+    color: #1A47A3;
+    text-decoration: none;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    width: 100%; /* Para ocupar todo o espaço disponível */
+}
+
+.error-message {
+    text-align: justify; /* Justifica o texto */
+    margin-top: 30px; /* Adiciona um espaço em cima e embaixo */
+    padding: 10px; /* Adiciona um padding interno, se desejado */
+    font-size: 15px; /* Ajuste o tamanho da fonte conforme necessário */
+    color: red; /* Define a cor do texto como vermelho */
+}
+
+
+.terms-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox i {
+    color: white;
+    font-size: 14px;
+    opacity: 0; 
+    transition: opacity 0.3s;
+}
+
+.custom-checkbox.selected {
+    background-color: #2A52BE; 
+    border-color: #2A52BE; 
+}
+
+.custom-checkbox.selected i {
+    opacity: 1; 
+}
+
+.terms-label {
+    font-size: 16px;
+    color: #5D5F66;
+}
+
+.terms-label a {
+    color: #2A52BE;
+    text-decoration: none;
+}
+
+.terms-label a:hover {
+    color: #1A47A3;
+    text-decoration: underline;
+}
+
+

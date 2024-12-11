@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Criptomoeda</title>
+    <link rel="stylesheet" href="/static/css/estilo-comprar.css">
+</head>
+<body>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <form action="/post_comprar" method="post">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Comprar Criptomoeda</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="criptomoeda">Selecione uma Criptomoeda</label>
+                            <select id="criptomoeda" name="criptomoeda" required>
+                                <option value="btc">Bitcoin</option>
+                                <option value="eth">Ethereum</option>
+                                <option value="ltc">Litecoin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantidade">Quantidade</label>
+                            <input type="number" id="quantidade" name="quantidade" min="0.01" step="0.01" required>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label for="preco">Preço Total (estimado):</label>
+                            <input type="text" id="preco" name="preco" value="R$ 0,00" readonly>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit">Confirmar Compra</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/javascript/compra.js"></script>
+</body>
+</html>

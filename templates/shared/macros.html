@@ -1,8 +1,18 @@
-{% macro input(name, label, type='text', value='', attributes='') -%}
-<div class="form-floating">
-    <input type="{{type}}" class="form-control mb-3" id="{{name}}" name="{{name}}" placeholder=" " {{attributes|safe}} value="{{value|e}}">
-    <label for="{{name}}">{{label}}</label>
+{% macro input(type,id,name,placeholder, icon_class, value='', attributes='') -%}
+<div class="form-row">
+    <div class="input-group mb-2">
+        <input type="{{type}}" class="custom-input" id={{id}} name={{name}}
+            value="{{value|e}}" {{attributes|safe}}
+            placeholder="{{placeholder}}" required>
+        <div class="input-group-append">
+            <span class="input-group-text"><i class="{{icon_class}}"></i></span>
+        </div>
+    </div>
 </div>
+{%- endmacro %}
+
+{% macro button(text) -%}
+<button type="submit">{{text}}</button> <!-- Botão de submit -->
 {%- endmacro %}
 
 {% macro select(name, label, options, value='', attributes='') -%}
@@ -15,8 +25,4 @@
     </select>
     <label for="{{name}}">{{label}}</label>    
 </div>
-{%- endmacro %}
-
-{% macro button(label, color='primary') -%}
-<button class="btn btn-{{color}} mt-2" type="submit">{{label}}</button>
 {%- endmacro %}
