@@ -18,7 +18,7 @@ async def obter_usuario_logado(request: Request) -> dict:
         usuario = UsuarioAutenticado(
             nome = dados["nome"], 
             email = dados["email"], 
-            perfil= dados["perfil"])
+            carteira= dados["carteira"])
         if "mensagem" in dados.keys():
             usuario.mensagem = dados["mensagem"]
         return usuario
@@ -63,11 +63,11 @@ def conferir_senha(senha: str, hash_senha: str) -> bool:
         return False
     
 
-def criar_token(nome: str, email: str, perfil: int) -> str:
+def criar_token(nome: str, email: str, carteira: str) -> str:
     payload = {
         "nome": nome,
         "email": email,
-        "perfil": perfil,
+        "carteira": carteira,
         "exp": datetime.now() + timedelta(days=1)
     }
     return jwt.encode(payload, 
@@ -81,11 +81,11 @@ def validar_token(token: str) -> dict:
             os.getenv("JWT_SECRET"),
             os.getenv("JWT_ALGORITHM"))
     except jwt.ExpiredSignatureError:
-        return { "nome": None, "email": None, "perfil": 0, "mensagem": "Token expirado" }
+        return { "nome": None, "email": None, "carteira": 0, "mensagem": "Token expirado" }
     except jwt.InvalidTokenError:
-        return { "nome": None, "email": None, "perfil": 0, "mensagem": "Token inválido" }
+        return { "nome": None, "email": None, "carteira": 0, "mensagem": "Token inválido" }
     except Exception as e:
-        return { "nome": None, "email": None, "perfil": 0, "mensagem": f"Erro: {e}" }
+        return { "nome": None, "email": None, "carteira": 0, "mensagem": f"Erro: {e}" }
     
 
 def criar_cookie_auth(response, token):

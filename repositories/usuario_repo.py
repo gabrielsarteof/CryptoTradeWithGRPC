@@ -10,6 +10,7 @@ class UsuarioRepo:
     def criar_tabela(cls):
         with obter_conexao() as db:
             cursor = db.cursor()
+            cursor.execute(SQL_DELETAR_TABELA)
             cursor.execute(SQL_CRIAR_TABELA)
 
     @classmethod
@@ -19,9 +20,10 @@ class UsuarioRepo:
             resultado = cursor.execute(SQL_INSERIR_USUARIO,
                 (usuario.nome,
                  usuario.email,
-                 usuario.telefone,
+                 usuario.cpf,
+                 usuario.data_nascimento,
                  usuario.senha,
-                 usuario.perfil))
+                 usuario.carteira))
             return resultado.rowcount > 0
         
     @classmethod
@@ -39,14 +41,25 @@ class UsuarioRepo:
             resultado = cursor.execute(
                 SQL_ATUALIZAR_SENHA, (senha, email))
             return resultado.rowcount > 0
-    
+        
     @classmethod
-    def atualizar_tema(cls, email: str, tema: str) -> bool:
+    def atualizar_carteira(cls, id: int, carteira: str) -> bool:
         with obter_conexao() as db:
             cursor = db.cursor()
             resultado = cursor.execute(
-                SQL_ATUALIZAR_TEMA, (tema, email))
+                SQL_ATUALIZAR_CARTEIRA, (carteira, id))
             return resultado.rowcount > 0
+        
+    @classmethod
+    def obter_id(cls, email: str) -> Optional[int]:
+        with obter_conexao() as db:
+            cursor = db.cursor()
+            cursor.execute(SQL_OBTER_ID, (email,))
+            resultado = cursor.fetchone()
+            
+            if resultado:
+                return resultado[0]  
+            return None  
       
     @classmethod
     def checar_credenciais(cls, email: str, senha: str) -> Optional[tuple]:

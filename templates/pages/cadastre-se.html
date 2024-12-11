@@ -11,11 +11,11 @@
                 <h1>Criar sua conta</h1>
                 <h2>Seu próximo investimento começa aqui</h2>
 
-                <form action="/login" method="post" class="form-full">
-                    {{ input(type="text", id="nome", name="nome", placeholder="Nome Completo", value="" ) }}
+                <form action="/post_cadastrar" method="post" class="form-full">
+                    {{ input(type="text", id="nome", name="nome", placeholder="Nome Completo", value="", attributes='data-mask="nome"' ) }}
                     <div class="d-flex align-items-center justify-content-center form-row">
                         <div class="divisao-form">
-                            {{ input(type="text", id="cpf", name="cpf", placeholder="CPF", value="" ) }}
+                            {{ input(type="text", id="cpf", name="cpf", placeholder="CPF", value="", attributes='data-mask="cpf"' ) }}
                         </div>
                         <div class="divisao-form">
                             {{ input(type="text", id="data_nascimento", name="data_nascimento", placeholder="Data de Nascimento", value="", attributes="required onfocus='this.type=\"date\"'") }}
@@ -49,6 +49,7 @@
         </div>
     </div>
 </div>
+<script src="/static/javascript/mascararCampos.js"></script>
 <script>
     function toggleCheckbox(element) {
     element.classList.toggle('selected');

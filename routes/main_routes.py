@@ -2,7 +2,9 @@ import secrets
 from fastapi import APIRouter, Form, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
+from models.carteira_model import Carteira
 from models.usuario_model import Usuario
+from repositories.carteira_repo import CarteiraRepo
 from repositories.usuario_repo import UsuarioRepo
 from util.auth import NOME_COOKIE_AUTH, criar_token, obter_hash_senha
 
@@ -32,13 +34,7 @@ async def post_entrar(
         response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
         return response
     token = criar_token(usuario[0], usuario[1], usuario[2])
-    nome_perfil = None
-    match (usuario[2]):
-        case 1: nome_perfil = "aluno"
-        case 2: nome_perfil = "professor"
-        case _: nome_perfil = ""
-    
-    response = RedirectResponse(f"/{nome_perfil}", status_code=status.HTTP_303_SEE_OTHER)    
+    response = RedirectResponse(f"/pages/usuario/index.html", status_code=status.HTTP_303_SEE_OTHER)    
     response.set_cookie(
         key=NOME_COOKIE_AUTH,
         value=token,
@@ -59,13 +55,18 @@ async def post_cadastrar(
     cpf: str = Form(...),
     data_nascimento: str = Form(...),
     senha: str = Form(...),
-    confsenha: str = Form(...),
-    perfil: int = Form(...)):
+    confsenha: str = Form(...)):
     if senha != confsenha:
         return RedirectResponse("/cadastrar", status_code=status.HTTP_303_SEE_OTHER)
+    print("oi")
     senha_hash = obter_hash_senha(senha)
+    carteira_hash = secrets.token_hex(16)
     usuario = Usuario(None, nome, email, cpf, data_nascimento, senha_hash, None)
     UsuarioRepo.inserir(usuario)
+    usuario_id = UsuarioRepo.obter_id(email)
+    carteira = Carteira(carteira_hash, usuario_id, saldo_fiat=0, saldos={})
+    CarteiraRepo.inserir(carteira)
+    UsuarioRepo.atualizar_carteira(usuario_id, carteira_hash)
     return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get("/sair")
