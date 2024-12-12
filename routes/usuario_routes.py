@@ -1,43 +1,42 @@
-from datetime import datetime
-import httpx
+import grpc
+import service_pb2
+import service_pb2_grpc
 from fastapi import APIRouter, Form, Request, status
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from models.transacao_model import Transacao
-from models.usuario_model import Usuario
-from repositories.carteira_repo import CarteiraRepo
-from repositories.transacao_repo import TransacaoRepo
-
+import httpx
 
 router = APIRouter(prefix="/usuario")
 
 templates = Jinja2Templates(directory="templates")
 
+channel = grpc.insecure_channel('localhost:50051')
+stub = service_pb2_grpc.CryptoServiceStub(channel)
+
 @router.get("/")
 async def get_usuario(request: Request, colaboradores_message: str = None):
-    carteira_id = request.state.usuario.carteira  
-    carteira = CarteiraRepo.obter_carteira(carteira_id)
+    carteira_id = request.state.usuario.carteira
+    response = stub.GetUserInfo(service_pb2.UserInfoRequest(carteira_id=carteira_id))
+    
+    moedas = [
+        {
+            "nome": moeda.nome,
+            "quantidade": moeda.quantidade,
+            "imagem": moeda.imagem
+        }
+        for moeda in response.moedas
+    ]
 
-    moedas = []
-    if carteira and carteira.saldos:
-        for moeda, quantidade in carteira.saldos.items():
-            moedas.append({
-                "nome": moeda,
-                "quantidade": quantidade,
-                "imagem": f"/static/img/{moeda.lower()}.png"  
-            })
-
-    transacoes = TransacaoRepo.obter_transacoes(carteira_id)
     transacoes_formatadas = [
         {
             "moeda": transacao.moeda,
-            "imagem": f"/static/img/{transacao.moeda.lower()}.png",
+            "imagem": transacao.imagem,
             "quantidade": transacao.quantidade,
             "data": transacao.data
         }
-        for transacao in transacoes
+        for transacao in response.transacoes
     ]
-    print (colaboradores_message)
+
     return templates.TemplateResponse(
         "pages/usuario/index.html",
         {
@@ -47,8 +46,6 @@ async def get_usuario(request: Request, colaboradores_message: str = None):
             "colaboradores_message": colaboradores_message
         }
     )
-
-
 
 @router.get("/comprar_cripto", response_class=HTMLResponse)
 async def get_comprar_cripto(request: Request):
@@ -82,61 +79,30 @@ async def get_comprar_cripto(request: Request):
 @router.post("/post_comprar_cripto")
 async def post_comprar_cripto(request: Request):
     form_data = await request.form()
-    criptomoeda_id = form_data.get("criptomoeda")  
-    quantidade = float(form_data.get("quantidade"))  
-    preco_unitario = float(form_data.get("preco").replace("R$ ", "").replace(",", ".")) / quantidade  
-    valor_total = float(form_data.get("preco").replace("R$ ", "").replace(",", "."))  
-
+    criptomoeda_id = form_data.get("criptomoeda")
+    quantidade = float(form_data.get("quantidade"))
+    preco_unitario = float(form_data.get("preco").replace("R$ ", "").replace(",", ".")) / quantidade
+    
     carteira_id = request.state.usuario.carteira
 
-    meses = {
-    1: "Janeiro", 2: "Fevereiro", 3: "Março", 4: "Abril",
-    5: "Maio", 6: "Junho", 7: "Julho", 8: "Agosto",
-    9: "Setembro", 10: "Outubro", 11: "Novembro", 12: "Dezembro"
-}
-    data_criacao = datetime.now()
-
-    data_formatada = f"{data_criacao.day} de {meses[data_criacao.month]} de {data_criacao.year} às {data_criacao.hour}:{data_criacao.minute:02d}"
-
-
-    transacao = Transacao(
+    response = stub.BuyCrypto(service_pb2.BuyCryptoRequest(
         carteira_id=carteira_id,
-        moeda=criptomoeda_id,  
+        criptomoeda_id=criptomoeda_id,
         quantidade=quantidade,
-        preco_unitario=preco_unitario,
-        valor_total=valor_total,
-        data=data_formatada,
-        tipo="compra"
-    )
+        preco_unitario=preco_unitario
+    ))
 
-    TransacaoRepo.inserir(transacao)
-
-    carteira = CarteiraRepo.obter_carteira(carteira_id)
-    
-    if carteira:
-        saldos = carteira.saldos or {}
-        if criptomoeda_id in saldos:
-            saldos[criptomoeda_id] += quantidade  
-        else:
-            saldos[criptomoeda_id] = quantidade  
-
-        print(carteira, "oi")
-        print(saldos)
-
-        CarteiraRepo.atualizar_saldo(carteira.usuario_id, carteira.saldo_fiat, saldos)
-
-    response = RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
-    return response
+    if response.success:
+        return RedirectResponse("/", status_code=status.HTTP_303_SEE_OTHER)
+    else:
+        return RedirectResponse("/usuario/comprar_cripto", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get("/mostrar_colaboradores")
 async def mostrar_colaboradores(request: Request):
-    colaboradores_message = "gabrielsarteof, brunarcedro e cortefacil"
+    response = stub.MostrarColaboradores(service_pb2.ColaboradoresRequest())
+    colaboradores_message = response.message
 
-    response = RedirectResponse(
+    return RedirectResponse(
         url=f"/usuario/?colaboradores_message={colaboradores_message}",
         status_code=status.HTTP_303_SEE_OTHER
     )
-    return response
-
-
-

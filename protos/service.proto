@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package cryptoservice;
+
+service CryptoService {
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc BuyCrypto (BuyCryptoRequest) returns (BuyCryptoResponse);
+  rpc GetUserInfo (UserInfoRequest) returns (UserInfoResponse);
+  rpc MostrarColaboradores (ColaboradoresRequest) returns (ColaboradoresResponse);
+}
+
+message LoginRequest {
+  string email = 1;
+  string senha = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message RegisterRequest {
+  string nome = 1;
+  string email = 2;
+  string cpf = 3;
+  string data_nascimento = 4;
+  string senha = 5;
+}
+
+message RegisterResponse {
+  bool success = 1;
+}
+
+message BuyCryptoRequest {
+  string carteira_id = 1;
+  string criptomoeda_id = 2;
+  float quantidade = 3;
+  float preco_unitario = 4;
+}
+
+message BuyCryptoResponse {
+  bool success = 1;
+}
+
+message UserInfoRequest {
+  string carteira_id = 1;
+}
+
+message UserInfoResponse {
+  repeated Moeda moedas = 1;
+  repeated Transacao transacoes = 2;
+}
+
+message Moeda {
+  string nome = 1;
+  float quantidade = 2;
+  string imagem = 3;
+}
+
+message Transacao {
+  string moeda = 1;
+  string imagem = 2;
+  float quantidade = 3;
+  string data = 4;
+}
+
+message ColaboradoresRequest {}
+
+message ColaboradoresResponse {
+  string message = 1;
+}
